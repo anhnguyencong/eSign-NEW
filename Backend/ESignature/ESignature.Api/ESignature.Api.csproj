@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+ 
+    <ItemGroup>
+        <Compile Remove="Logs\**" />
+        <Compile Remove="uploads\**" />
+        <Compile Remove="wwwroot\uploads\**" />
+        <Content Remove="Logs\**" />
+        <Content Remove="uploads\**" />
+        <Content Remove="wwwroot\uploads\**" />
+        <EmbeddedResource Remove="Logs\**" />
+        <EmbeddedResource Remove="uploads\**" />
+        <EmbeddedResource Remove="wwwroot\uploads\**" />
+        <None Remove="Logs\**" />
+        <None Remove="uploads\**" />
+        <None Remove="wwwroot\uploads\**" />
+    </ItemGroup>
+ 
+    <ItemGroup>
+      <None Remove="License.txt" />
+    </ItemGroup>
+ 
+    <ItemGroup>
+      <EmbeddedResource Include="License.txt" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ESignature.ServiceLayer\ESignature.ServiceLayer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="wwwroot\config\signer.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\config\app.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\esigncloud\gic.p12">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\esigncloud\logo.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\esigncloud\Signature.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

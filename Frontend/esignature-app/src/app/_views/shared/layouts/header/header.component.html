@@ -1,0 +1,30 @@
+<!-- <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu> -->
+<header>
+    <div class="wrapper">
+        <div class="p-grid p-jc-between" style="width:100%">
+            <div class="p-col-4 p-text-left">
+                <div class="col-3 col-3-resize col-logo">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="https://www.gic.com.vn/img/gic-logo-color.svg" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-col-3" style="text-align:right">
+                <button *ngIf="!statusService"
+                    pButton pRipple type="button" label="Start" class="p-button-raised p-mr-3"
+                    icon="pi pi-power-off"(click)="confirmApp(appStatus.Start)"></button>
+                <button *ngIf="statusService"
+                    pButton pRipple type="button" label="Stop" class="p-button-raised p-button-danger p-mr-3"
+                    icon="pi pi-times-circle" (click)="confirmApp(appStatus.Stop)"></button>
+                <button pButton icon="pi pi-sign-out" pTooltip="Logout" tooltipPosition="bottom"
+                    (click)="logout()"
+                    class="p-button-rounded p-button-text p-button-lg"></button>
+            </div>
+        </div>
+    </div>
+    <p-confirmDialog [style]="{width: '50vw'}"  rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+    <p-toast></p-toast>
+</header>

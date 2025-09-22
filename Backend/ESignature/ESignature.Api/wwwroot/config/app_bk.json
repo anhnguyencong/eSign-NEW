@@ -1,0 +1,22 @@
+{
+    "apps": [
+        {
+            "name": "Admin System",
+            "folder": "",
+            "ipaddress": "::1",
+            "key": "AAAAAAAA-B843-CE52-E477-D29C876EA1D1"
+        },
+	{
+            "name": "Bancas",
+            "folder": "D:\\UploadFiles\\Bancas",
+            "ipaddress": "::1",
+            "key": "CCC6E196-8843-4E52-B477-229C876EA1D1"
+        },
+	{
+            "name": "Application 2",
+            "folder": "D:\\UploadFiles\\AppTest",
+            "ipaddress": "::1",
+            "key": "FFF6E196-8843-4E52-B477-229C876EA1D1"
+        }
+    ]
+}

@@ -1,0 +1,20 @@
+.status-failed, .status-callbackfailed, .callbackStatus-failed {
+    color: #c63737;
+}
+.status-completed, .status-callbackcompleted, .callbackStatus-completed {
+    color: #689F38;
+}
+.status-pending, .status-callbackpending, .callbackStatus-pending {
+    color: #FBC02D;
+}
+
+ul li {
+    list-style-type: none;
+    padding-bottom: 0.4rem;
+}
+
+.p-message-error {
+    background: red!important;
+    /* background-color: #A11F1F !important; */
+    opacity: 0.2;
+}

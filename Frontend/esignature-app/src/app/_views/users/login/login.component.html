@@ -1,0 +1,57 @@
+<div class="content login">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 d-sm-none d-none d-lg-block d-xl-block">
+                <img src="assets/images/undraw_remotely.svg" alt="Image" class="img-fluid">
+            </div>
+            <div class="col-lg-6 col-md-12 col-sm-12 contents center">
+                <div class="row justify-content-center">
+                    <div class="col-md-10">
+                        <div class="card shadow-lg border-0 rounded-lg form-body">
+                            <div class="card-header justify-content-center p-text-center">
+                                <img src="assets/images/gic-logo-color.svg" alt="" style="margin-bottom: 1rem;">
+                                <!-- <h3 class="fw-light my-4" style="font-weight: strong;">LOGIN</h3> -->
+                            </div>
+                            <div class="card-body">
+                                
+                                <!-- Login form-->
+                                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+                                    <div class="p-field p-text-center">
+                                        <label class="p-text-bold">LOGIN</label>
+                                    </div>
+                                    <!-- Form Group (email address)-->
+                                    <div *ngIf="isSubmitError" class="mb-3">
+                                        <div class="alert alert-danger float-left" role="alert">
+                                            {{errorMessage}}
+                                        </div>
+                                    </div>
+                                    <div class="p-fluid">
+                                        <div class="p-field">
+                                            <input pInputText type="text" id="email" class="form-control p-col-12"
+                                                name="email" formControlName="email" placeholder="user name">
+                                            <small *ngIf="loginForm.controls['email'].errors?.email 
+                                            && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" id="username2-help" class="p-error"> 
+                                            Please enter a valid email address</small>
+                                        </div>
+                                        <div class="p-field">
+                                            <p-password placeholder="password" formControlName="password"
+                                                [toggleMask]="true"></p-password>
+
+                                        </div>
+                                    </div>
+                                    <!-- Form Group (login box)-->
+                                    <div class="mt-4 mb-0" style="float: right;">
+                                        <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
+                                            <i *ngIf="isSubmitted" class="fas fa-circle-notch fa-spin mr-2"></i>
+                                            LOGIN
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

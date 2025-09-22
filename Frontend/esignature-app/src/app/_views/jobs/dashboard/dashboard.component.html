@@ -1,0 +1,213 @@
+<div class="" style="padding: 1.5rem; padding-bottom: 0.5rem;">
+    <form [formGroup]="jobFilterForm" (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="p-fluid p-formgrid p-grid">
+            <div class="p-field p-col">
+                <div class="p-field p-grid">
+                    <label class="p-col-12 p-md-2 p-mb-md-0 p-text-right">Source name</label>
+                    <div class="p-col-12 p-md-10">
+                        <p-dropdown [options]="sourceNames" formControlName="sourceName"
+                            (onChange)="clearFilter(ddBatchId);OnChangeSourceName($event);" placeholder="Select"
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                </div>
+                <div class="p-field p-grid">
+                    <label class="p-col-12 p-md-2 p-mb-md-0 p-text-right">Keyword</label>
+                    <div class="p-col-12 p-md-10">
+                        <span class="p-input-icon-right">
+                            <input type="text" pInputText placeholder="Search" formControlName="textSearch">
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-field p-col p-offset-1">
+                <div class="p-field p-grid">
+                    <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Status</label>
+                    <div class="p-col-12 p-md-10">
+                        <p-dropdown [options]="jobStatuses" formControlName="status" [(ngModel)]="jobFilter.status"
+                            (onChange)="OnChangeStatus($event)" placeholder="Select" [showClear]="true"
+                            optionLabel="label" optionValue="value">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="p-field p-grid">
+                    <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">BatchID</label>
+                    <div class="p-col-12 p-md-10">
+                        <p-dropdown #ddBatchId [options]="batchIds" formControlName="batchId"
+                            (onChange)="OnChangeBatchId($event)" [filter]="true" filterBy="value" placeholder="Select"
+                            [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui-g-12" style="text-align:right">
+            <p-button [disabled]="!jobFilterForm.valid" label="Search" icon="pi pi-search" type="submit"></p-button>
+        </div>
+    </form>
+</div>
+
+<div class="p-md-12">
+
+    <div class="card-body">
+
+        <div class="p-grid p-col-12">
+            <div class="p-col-fixed" style="width:150px;">
+                <div class="p-field p-grid p-text-center">
+                    <label><strong>Total:</strong> {{jobResult.toTal | number}}</label>
+                </div>
+            </div>
+            <div class="p-col-fixed" style="width: 200px;">
+                <div class="p-field p-grid">
+                    <label><span class="status-completed">Completed:</span> {{jobResult.completed | number}}</label>
+                </div>
+                <div class="p-field p-grid">
+                    <label><span class="status-callbackcompleted">Callback Completed:</span> {{jobResult.callbackCompleted | number}}</label>
+                </div>
+            </div>
+            <div class="p-col-fixed" style="width: 200px;">
+                <div class="p-field p-grid">
+                    <label><span class="status-inprogress">In progress:</span> {{jobResult.inProgress | number}}</label>
+                </div>
+                <div class="p-field p-grid">
+                    <label><span class="status-callbackpending">Callback Pending:</span> {{jobResult.callbackPending | number}}</label>
+                </div>
+            </div>
+            <div class="p-col-fixed" style="width: 200px;">
+                <div class="p-field p-grid">
+                    <label><span class="status-pending">Pending:</span> {{jobResult.pending | number}}</label>
+                </div>
+                <div class="p-field p-grid">
+                    <label><span class="status-callbackfailed">Callback Failed:</span> {{jobResult.callbackFailed | number}}</label>
+                </div>
+            </div>
+            <div class="p-col-fixed" style="width: 200px;">
+                <div class="p-field p-grid">
+                    <label><span class="status-failed">Failed:</span> {{jobResult.failed | number}}</label>
+                </div>
+            </div>
+            <div class="p-col">
+                
+            </div>
+            <div class="p-col-fixed" style="width: 200px; margin-top: 20px;padding-right: 0px;">
+                <div class="p-field p-grid">
+                </div>
+                <div style="text-align:right;" >
+                    <button pButton *ngIf="isSetPriority"
+                        (click)="setPriority(priorityTypeSubmit.BatchId, jobFilter.batchId, 0);op.toggle($event);"
+                        type="button" label="Set Priority" class="p-button-sm p-mr-2"></button>
+                    <button pButton *ngIf="isRetryAllSubmit" (click)="retryByBatchId()" type="button" label="Retry All"
+                        icon="pi pi-replay" class="p-button-sm p-mr-2"></button>
+                    <button pButton *ngIf="isRetryCallbackSubmit" (click)="retryCallbackByBatchId()" type="button" label="Retry Callback"
+                        icon="pi pi-refresh" class="p-button-sm p-mr-2"></button>
+                </div>
+            </div>
+            
+        </div>
+        <p-overlayPanel #op [style]="{width: '150px'}">
+
+            <div class="p-fluid p-grid p-jc-center">
+                <form [formGroup]="priorityForm" (ngSubmit)="onSubmitPriority()" autocomplete="off">
+                    <input type="text" hidden id="id" formControlName="id" [(ngModel)]="jobPriority.id" />
+                    <input type="text" hidden id="type" formControlName="updateType"
+                        [(ngModel)]="jobPriority.updateType" />
+                    <div class="p-col-8">
+                        <p-inputNumber id="priority" formControlName="priority" [(ngModel)]="jobPriority.priority"
+                            class="p-d-block p-inputtext-sm" mode="decimal" [showButtons]="true"
+                            inputId="minmax-buttons" [min]="0">
+                        </p-inputNumber>
+                    </div>
+
+                    <div class="p-formgroup-inline">
+                        <div class="p-field" style="margin-right: 0px;">
+                            <button pButton pRipple type="button" label="Cancel" (click)="op.hide()"
+                                class="p-button-text p-button-plain p-button-sm"></button>
+
+                        </div>
+                        <div class="p-field" style="margin-right: 0px;">
+                            <button pButton pRipple [disabled]="priorityForm.invalid" (click)="op.hide()" type="submit"
+                                label="Yes" class="p-button-text p-button-sm"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </p-overlayPanel>
+        <p-table #myCoolTable styleClass="p-datatable-sm p-datatable-striped" [resizableColumns]="true"
+            [autoLayout]="true" [value]="jobs" [lazy]="true" (onLazyLoad)="loadJobs($event)"
+            [totalRecords]="jobPaging.totalRows" [paginator]="true" [rows]="jobPaging.pageDisplay"
+            [showCurrentPageReport]="true" [loading]="loading" [(first)]="first"
+            currentPageReportTemplate="{totalRecords} items found, display {first} to {last}">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Reference ID</th>
+                    <th>Batch Id</th>
+                    <th>Source name</th>
+                    <th>Document name</th>
+                    <th>Ref Policy number</th>
+                    <th>Status</th>
+                    <th>Callback Status</th>
+                    <th>Created Date</th>
+                    <th>Priority</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-job>
+                <tr [pContextMenuRow]="job" [pSelectableRow]="job">
+                    <td>{{job.refId}}</td>
+                    <td>{{job.batchId}}</td>
+                    <td>{{job.sourceName}}</td>
+                    <td>{{job.documentName}}</td>
+                    <td>{{job.refNumber}}</td>
+                    <td>
+                        <span [class]="'status-' + (job.status ? job.status.toLowerCase() : '')">{{
+                            getValueEnumStatus(job.status) }}</span>
+                    </td>
+                    <td>
+                        <span [class]="'callbackStatus-' + (job.callbackStatus ? job.callbackStatus.toLowerCase() : '')">{{
+                            getValueEnumCallbackStatus(job.callbackStatus) }}</span>
+                    </td>
+                    <td>{{job.createdDate | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+                    <td>{{job.priority}}</td>
+                    <td style="text-align: right;">
+                        <button *ngIf="job.status=='Failed'" pButton icon="pi pi-eye"
+                            pTooltip="Show Error" tooltipPosition="bottom" (click)="showError(job.id)"
+                            class="p-button-rounded p-button-text p-button-danger"></button>
+                        <button *ngIf="job.status=='Failed'" pButton icon="pi pi-replay"
+                            pTooltip="Retry" tooltipPosition="bottom" (click)="retry(job.id)"
+                            class="p-button-rounded p-button-text p-button-danger"></button>
+                        <button *ngIf="job.callbackStatus=='Failed'" pButton icon="pi pi-refresh"
+                            pTooltip="Retry callback" tooltipPosition="bottom" (click)="retryCallback(job.id)"
+                            class="p-button-rounded p-button-text p-button-danger"></button>
+                        <button *ngIf="job.status=='Pending'" pButton
+                            icon="pi pi-arrow-up p-button-plain" pTooltip="Push priority" tooltipPosition="bottom"
+                            (click)="setPriority(priorityTypeSubmit.Job, job.id, job.priority);op.toggle($event);"
+                            class="p-button-rounded p-button-text p-button-success"></button>
+                        <button *ngIf="job.status=='Completed' || job.status=='CallbackCompleted'" pButton
+                            icon="pi pi-download" pTooltip="Download" tooltipPosition="bottom"
+                            (click)="downloadFile(job.id)"
+                            class="p-button-rounded p-button-text p-button-plain"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+        <div *ngIf="jobs.length==0">
+            No values to display here
+        </div>
+    </div>
+</div>
+<!--Dialog error-->
+<p-dialog [modal]="true" header="{{jobError.header}}" [draggable]="true" [(visible)]="displayPopupError" [style]="{width: '50vw'}">
+    <p-messages severity="error">
+        <ng-template pTemplate>
+            <i class="pi pi-info-circle" style="color: #750606;"></i>
+            <div class="p-ml-2" style="color: #750606;">{{jobError.content}}</div>
+        </ng-template>
+    </p-messages>
+    <ng-template pTemplate="footer">
+        <p-button (click)="displayPopupError=false" label="Ok" styleClass="p-button"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

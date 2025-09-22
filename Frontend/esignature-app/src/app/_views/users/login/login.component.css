@@ -1,0 +1,68 @@
+.login{
+    background-color: #0061f2 !important;
+    height: 100vh;
+}
+/* input[type=text], input[type=password] {
+    text-align: left;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.875rem;
+    margin:0px;
+    width: 100%;
+} */
+.right-inner-addon {
+    position: relative;
+  }
+  
+  .right-inner-addon input {
+    padding-right: 30px;
+  }
+  
+  .right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    pointer-events: none;
+  }
+  .content {
+    padding: 7rem 0;
+}
+  
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+.card-header {
+  background-color: #fff !important;
+}
+
+.form-body{
+ padding: 5rem 3rem;
+}
+
+@media only screen and (max-width: 768px) {
+  .center {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .form-body{
+    padding: 4rem 3rem;
+   }
+   .center {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 1400px) {
+  .form-body{
+    padding: 4rem 3rem;
+   }
+}
+
+@media only screen and (max-width: 1200px) {
+  .form-body{
+    padding: 2rem 1rem;
+   }
+}

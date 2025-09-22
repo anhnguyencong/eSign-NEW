@@ -1,0 +1,28 @@
+{
+  "Signers": [    
+    {
+      "SignerId": "SIGNER1",
+      "AgreementUUID": "2A261E62-2831-4E5C-8561-57868D424763-HEAD",
+      "CredentialID": "aaad0227-0ab8-4bad-9b66-2f23cb8a6c4b",
+      "PassCode": "12345678",
+      "Signature": "VcKjiuCK9+JvAyD4TBnVVTrrNSjyfTS6bj6ypfNa3aU6sJzIIW9RrYAEE/PIlz/0aKo7cy89YZIdnPLmXzpGCQMmHqwGB6QbBL6IVAbXEeHjeArz96kBKhqU1ULbrk0bvNsRUez+52i78Szs9/eRcAYzPo6zX5Vws0UqP3DpukNXfi4f8oD44wj8+8QMiLyL6p0OqWy1mns+DnDDgiREKr5nI+iRUhItH+aXyqEVaJfw2CliolPm8+xN3E1O4c6s11NbNPZmd28S4TI5+jdyfiTz11PMxOU36bRLKwmySugQlxIR3YKQfD7b6Tjs1X4c3AZr7IzDGIsB01mNmZqECA==",
+      "RestUrl": "http://192.168.177.222/rssp/v2/",
+      "Username": "baohiemgic",
+      "Password": "12345678",
+      "KeyStore": "gic.p12",
+      "KeyStorePassword": "12345678"
+    },
+    {
+      "SignerId": "SIGNER2",
+      "AgreementUUID": "2A261E62-2831-4E5C-8561-57868D424763-HCM",
+      "CredentialID": "1a0ac184-797a-4a45-a4bd-1ad719c63058",
+      "PassCode": "12345678",
+      "Signature": "VcKjiuCK9+JvAyD4TBnVVTrrNSjyfTS6bj6ypfNa3aU6sJzIIW9RrYAEE/PIlz/0aKo7cy89YZIdnPLmXzpGCQMmHqwGB6QbBL6IVAbXEeHjeArz96kBKhqU1ULbrk0bvNsRUez+52i78Szs9/eRcAYzPo6zX5Vws0UqP3DpukNXfi4f8oD44wj8+8QMiLyL6p0OqWy1mns+DnDDgiREKr5nI+iRUhItH+aXyqEVaJfw2CliolPm8+xN3E1O4c6s11NbNPZmd28S4TI5+jdyfiTz11PMxOU36bRLKwmySugQlxIR3YKQfD7b6Tjs1X4c3AZr7IzDGIsB01mNmZqECA==",
+      "RestUrl": "http://192.168.177.222/rssp/v2/",
+      "Username": "baohiemgic",
+      "Password": "12345678",
+      "KeyStore": "gic.p12",
+      "KeyStorePassword": "12345678"
+    }
+  ]
+}

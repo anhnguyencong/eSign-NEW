@@ -1,0 +1,47 @@
+{
+    "apps": [
+        {
+            "name": "Admin System",
+            "folder": "",
+            "ipaddress": "::1",
+            "key": "AAAAAAAA-B843-CE52-E477-D29C876EA1D1"
+        },
+	{
+            "name": "Bancas",
+            "folder": "D:\\UploadFiles\\Bancas",
+            "ipaddress": "::1",
+            "key": "CCC6E196-8843-4E52-B477-229C876EA1D1"
+        },
+	{
+            "name": "Application 2",
+            "folder": "D:\\UploadFiles\\AppTest",
+            "ipaddress": "::1",
+            "key": "FFF6E196-8843-4E52-B477-229C876EA1D1"
+        },
+    {
+      "name": "eCertificate",
+      "folder": "D:\\UploadFiles\\eCert",
+      "ipaddress": "::1",
+      "key": "10F3B5C1-9470-4289-A5D0-076114DDF89C"
+    },
+    {
+      "name": "Reinsurance",
+      "folder": "D:\\UploadFiles\\Reinsurance",
+      "ipaddress": "::1",
+      "key": "C7913497-A667-4DFE-9A95-6629235E18A9"
+    },
+{
+      "name": "PortalESignature",
+      "folder": "D:\\UploadFiles\\PortalESignature",
+      "ipaddress": "::1",
+      "key": "78BE2BD9-8FE6-466C-A375-04FE195793DF"
+    },
+
+{
+      "name": "ReinsuranceEsign",
+      "folder": "D:\\UploadFiles\\ReinsuranceEsign",
+      "ipaddress": "::1",
+      "key": "09BA1CF0-6645-4D35-9A23-B9D205C70EF8"
+    }
+    ]
+}

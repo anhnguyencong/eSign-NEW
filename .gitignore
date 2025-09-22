@@ -1,0 +1,27 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Backend/ESignature/.vs/ESignature
+/Backend/ESignature/ESignature.Api/bin/Debug/net5.0
+/Backend/ESignature/ESignature.Api/Logs
+/Backend/ESignature/ESignature.Api/obj
+/Backend/ESignature/ESignature.Core/bin/Debug/net5.0
+/Backend/ESignature/ESignature.Core/obj
+/Backend/ESignature/ESignature.DAL/bin/Debug/net5.0
+/Backend/ESignature/ESignature.DAL/obj
+/Backend/ESignature/ESignature.ServiceLayer/bin/Debug/net5.0
+/Backend/ESignature/ESignature.ServiceLayer/obj
+/Backend/ESignature/ESignature.Api/wwwroot/uploads/app1/pending
+/Backend/ESignature/ESignature.Api/wwwroot/uploads/app2/pending
+/Backend/ESignature/ESignature.Api/wwwroot/uploads/app1/completed
+/Backend/ESignature/ESignature.Api/wwwroot/uploads/app2/completed
+/Backend/ESignature/ESignature.Api/bin/Release/net5.0
+/Backend/ESignature/ESignature.Core/bin/Release/net5.0
+/Backend/ESignature/ESignature.DAL/bin/Release/net5.0
+/Backend/ESignature/ESignature.ServiceLayer/bin/Release/net5.0
+/b.bak
+Backend/ESignature/ESignature.Api/ESignature.Api.csproj.user
+/Backend/ESignature/ESignature.Api/pending
+/Backend/ESignature/ESignature.Api/Properties/PublishProfiles
+/Backend/ESignature/ESignature.Api/.config
