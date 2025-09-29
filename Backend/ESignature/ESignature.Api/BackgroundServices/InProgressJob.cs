@@ -105,7 +105,7 @@ namespace ESignature.Api.BackgroundServices
                             var pendingFile = item.Files.FirstOrDefault(q => q.JobFileType == JobFileType.Pending);
                             if (pendingFile != null)
                             {
-                                var rsspCloudSetting = _apiSource.Signers.SingleOrDefault(q => q.SignerId == item.SignerId);
+                                var rsspCloudSetting = _apiSource.HashSigners.SingleOrDefault(q => q.SignerId == item.SignerId);
                                 
                                 // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
                                 var branchSetting = _apiSource.Branches.SingleOrDefault(q => q.SignerId == item.SignerId);

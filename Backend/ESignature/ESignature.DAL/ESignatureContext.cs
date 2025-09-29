@@ -1,6 +1,7 @@
 ﻿using ESignature.DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Linq;
 
@@ -23,7 +24,11 @@ namespace ESignature.DAL
             OnIdentityCreating(modelBuilder);
             OnIndexesCreating(modelBuilder);
         }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.ConfigureWarnings(warnings =>
+                warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
+        }
         private static void OnIndexesCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Job>().HasIndex(q => new

@@ -87,7 +87,7 @@ namespace ESignature.ServiceLayer.Services.Commands
 
             if (request.NeedSign)
             {
-                var signer = _apiSourceData.GetSigner(request.SignerId);
+                var signer = _apiSourceData.GetHashSigner(request.SignerId);
                 if (signer == null)
                 {
                     response.Errors.Add(new ErrorDto

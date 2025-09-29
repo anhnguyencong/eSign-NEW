@@ -1,4 +1,5 @@
 ﻿using ESignature.Core.Helpers;
+using ESignature.Hash.ServiceLayer.Settings;
 using ESignature.ServiceLayer.Services.Dtos;
 using ESignature.ServiceLayer.Settings;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace ESignature.ServiceLayer.Services.OnStartup
     {
         public IList<ApiSourceItemDto> Sources { get; private set; }
 
-        public List<RsspCloudSetting> Signers { get; private set; }
+        //public List<RsspCloudSetting> Signers { get; private set; }
+        public List<HashRsspCloudSetting> HashSigners { get; private set; }
 
         // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
         public List<Branch> Branches { get; private set; }
@@ -20,11 +22,15 @@ namespace ESignature.ServiceLayer.Services.OnStartup
         {
             return Sources.First(q => q.Key == tokenKey);
         }
-
-        public RsspCloudSetting GetSigner(string signerId)
+        public HashRsspCloudSetting GetHashSigner(string signerId)
         {
-            return Signers.FirstOrDefault(q => q.SignerId == signerId);
+            return HashSigners.FirstOrDefault(q => q.SignerId == signerId);
         }
+
+        //public RsspCloudSetting GetSigner(string signerId)
+        //{
+        //    return Signers.FirstOrDefault(q => q.SignerId == signerId);
+        //}
 
         // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
         public Branch GetBranch(string signerId)
@@ -44,11 +50,14 @@ namespace ESignature.ServiceLayer.Services.OnStartup
             Sources = items;
         }
 
-        public void SetSigners(List<RsspCloudSetting> items)
+        //public void SetSigners(List<RsspCloudSetting> items)
+        //{
+        //    Signers = items;
+        //}
+        public void SetHashSigners(List<HashRsspCloudSetting> items)
         {
-            Signers = items;
+            HashSigners = items;
         }
-
         // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
         public void SetBranchesSetting(List<Branch> items)
         {

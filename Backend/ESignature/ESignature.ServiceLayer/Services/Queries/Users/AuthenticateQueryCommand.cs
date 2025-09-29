@@ -39,6 +39,7 @@ namespace ESignature.ServiceLayer.Services.Queries.Users
             if (user != null)
             {
                 var signinResult = await _signInManager.PasswordSignInAsync(user, request.Password, false, true);
+                
                 if (signinResult.Succeeded)
                 {
                     var token = await CreateJwtToken(user);

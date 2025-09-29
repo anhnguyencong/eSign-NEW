@@ -1,5 +1,6 @@
 ﻿using ESignature.DAL;
 using ESignature.DAL.Models;
+using ESignature.Hash.ServiceLayer.Settings;
 using ESignature.ServiceLayer.Services.Dtos;
 using ESignature.ServiceLayer.Services.OnStartup;
 using ESignature.ServiceLayer.Settings;
@@ -36,7 +37,11 @@ namespace ESignature.ServiceLayer.Services.Commands
 
         public async Task<bool> Handle(SeedDataCommand request, CancellationToken cancellationToken)
         {
-            await SeedSigners();
+            //await SeedSigners();
+            
+            //này cho kí hasj mới
+            await SeedHashSigners();
+
             await SeedApplications();
             await SeedRoles();
             await SeedUsers();
@@ -64,16 +69,24 @@ namespace ESignature.ServiceLayer.Services.Commands
             }
 
         }
-        private async Task SeedSigners()
+        //private async Task SeedSigners()
+        //{
+        //    using (var apps = new StreamReader(string.Format("{0}/config/{1}", _webHostEnvironment.WebRootPath, "signer.json")))
+        //    {
+        //        var jsonString = await apps.ReadToEndAsync();
+        //        var d = JsonConvert.DeserializeObject<SignerSetting>(jsonString);
+        //        _apiSourceData.SetSigners(d.Signers);
+        //    }
+        //}
+        private async Task SeedHashSigners()
         {
-            using (var apps = new StreamReader(string.Format("{0}/config/{1}", _webHostEnvironment.WebRootPath, "signer.json")))
+            using (var apps = new StreamReader(string.Format("{0}/config/{1}", _webHostEnvironment.WebRootPath, "hash_signer.json")))
             {
                 var jsonString = await apps.ReadToEndAsync();
-                var d = JsonConvert.DeserializeObject<SignerSetting>(jsonString);
-                _apiSourceData.SetSigners(d.Signers);
+                var d = JsonConvert.DeserializeObject<HashSignerSetting>(jsonString);
+                _apiSourceData.SetHashSigners(d.Signers);
             }
         }
-
         private async Task SeedApplications()
         {
             using (var apps = new StreamReader(string.Format("{0}/config/{1}", _webHostEnvironment.WebRootPath, "app.json")))

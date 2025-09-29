@@ -1,4 +1,5 @@
 ﻿using ESignature.DAL;
+using ESignature.Hash.ServiceLayer.Settings;
 using ESignature.ServiceLayer.ESignCloud;
 using ESignature.ServiceLayer.Settings;
 using MediatR;
@@ -15,7 +16,7 @@ namespace ESignature.ServiceLayer.Services.Commands
 {
     public class SignPDFCommand : IRequest<bool>
     {
-        public RsspCloudSetting RsspCloudSetting { get; set; }
+        public HashRsspCloudSetting HashRsspCloudSetting { get; set; }
 
         // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
         public Branch BranchSetting { get; set; }

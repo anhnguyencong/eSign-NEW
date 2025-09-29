@@ -40,14 +40,14 @@ namespace ESignature.Api
             SetAsposeLicense();
             var configuration = GetConfiguration();
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
-            return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
+            return Host.CreateDefaultBuilder(args).UseSerilog().ConfigureWebHostDefaults(webBuilder =>
             {
                 //webBuilder.UseKestrel(opt => opt.AddServerHeader = false);
                 webBuilder.UseIISIntegration();
                 webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
                 webBuilder.UseStartup<Startup>();
                 webBuilder.UseConfiguration(configuration);
-                webBuilder.UseSerilog();
+                //webBuilder.UseSerilog();
             });
         }
 

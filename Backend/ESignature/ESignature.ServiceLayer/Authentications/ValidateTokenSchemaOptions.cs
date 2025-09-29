@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -31,10 +32,9 @@ namespace ESignature.ServiceLayer.Authentications
         public ValidateTokenSchemaOptionsHandler(IOptionsMonitor<ValidateTokenSchemaOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock,
             ApiSourceData apiSourceData,
             IOptions<ESignatureSetting> esoptions,
-            IHttpContextAccessor httpContextAccessor) : base(options, logger, encoder, clock)
+            IHttpContextAccessor httpContextAccessor) : base(options, logger, encoder)
         {
             _apiSourceData = apiSourceData;
             _httpContextAccessor = httpContextAccessor;

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
  
     <ItemGroup>
@@ -20,6 +20,12 @@
     </ItemGroup>
  
     <ItemGroup>
+      <Compile Remove="BackgroundServices\CallBackJob.cs" />
+      <Compile Remove="BackgroundServices\HistoryJob.cs" />
+      <Compile Remove="BackgroundServices\PendingJob.cs" />
+    </ItemGroup>
+ 
+    <ItemGroup>
       <None Remove="License.txt" />
     </ItemGroup>
  
@@ -28,21 +34,26 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7">
+        <PackageReference Include="AutoMapper" Version="14.0.0" />
+        <PackageReference Include="MediatR" Version="12.5.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
+        <PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ESignature.Hash.ServiceLayer\ESignature.Hash.ServiceLayer.csproj" />
       <ProjectReference Include="..\ESignature.ServiceLayer\ESignature.ServiceLayer.csproj" />
     </ItemGroup>
 
     <ItemGroup>
+      <Content Update="wwwroot\config\hash_signer.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Content Update="wwwroot\config\signer.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>

@@ -25,3 +25,10 @@ Backend/ESignature/ESignature.Api/ESignature.Api.csproj.user
 /Backend/ESignature/ESignature.Api/pending
 /Backend/ESignature/ESignature.Api/Properties/PublishProfiles
 /Backend/ESignature/ESignature.Api/.config
+/Backend/ESignature/.vs
+/Backend/ESignature/ESignature.Api/bin
+/Backend/ESignature/ESignature.Core/bin
+/Backend/ESignature/ESignature.DAL/bin
+/Backend/ESignature/ESignature.Hash.ServiceLayer/bin
+/Backend/ESignature/ESignature.Hash.ServiceLayer/obj
+/Backend/ESignature/ESignature.ServiceLayer/bin

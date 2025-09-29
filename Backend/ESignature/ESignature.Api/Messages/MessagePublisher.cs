@@ -8,12 +8,13 @@ using Microsoft.Extensions.Logging;
 using ESignature.Core.Helpers;
 using ESignature.Core.Settings;
 using Microsoft.Extensions.Configuration;
+using System.Threading;
 
 namespace ESignature.Api.Messages
 {
     public interface IMessagePublisher
     {
-        Task<bool> PublishMessage(string message, string queueName);
+        Task<bool> PublishMessage(string message, string queueName, int Priority, CancellationToken cancellation = default);
     }
     public class MessagePublisher : IMessagePublisher, IDisposable
     {
@@ -34,16 +35,23 @@ namespace ESignature.Api.Messages
             _config = config;
 
             _rabbitMQSettings = _config.GetSection("LogRabbitMQSettings").Get<RabbitMQSettings>() ?? new RabbitMQSettings();
-            Connect();
+            AsyncHelper.RunSync(
+                          async () =>
+                          {
+                              await Connect();
+                          });
+
         }
 
-        public void Connect()
+        public async Task Connect(CancellationToken cancellation = default)
         {
-            lock (_lock)
+
+            try
             {
-                try
+                lock (_lock)
                 {
                     if (_connection != null && _connection.IsOpen) return;
+
                     _connection?.Dispose();
                     _channel?.Dispose();
 
@@ -62,43 +70,61 @@ namespace ESignature.Api.Messages
                             _channel = await _connection.CreateChannelAsync();
                         }
                         );
-
-
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"Failed to connect RabbitMQ for logging: {ex.Message}");
-                    _connection?.Dispose();
-                    _connection = null;
-                    _channel?.Dispose();
-                    _channel = null;
                 }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to connect RabbitMQ for logging: {ex.Message}");
+                _connection?.Dispose();
+                _connection = null;
+                _channel?.Dispose();
+                _channel = null;
+            }
+
         }
-        public async Task<bool> PublishMessage(string message, string queueName)
+        // Publish a message to the specified queue with priority handling
+        // Priority: 1 (high), 5 (medium), 10 (low) => but when change to RabbitMQ, it will be 10 (high), 5 (medium), 1 (low)
+        public Task<bool> PublishMessage(string message, string queueName)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<bool> PublishMessage(string message, string queueName, int Priority, CancellationToken cancellation = default)
         {
             if (_disposed)
                 throw new ObjectDisposedException(nameof(MessagePublisher));
 
             if (_connection == null || !_connection.IsOpen)
             {
-                await Task.Run(() => Connect()); // Run Connect on a background thread
+                await Connect(); // Ensure connection is established       
             }
 
             if (_connection != null && _connection.IsOpen)
             {
                 try
                 {
-                    await _channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
+                    // Declare a durable priority queue with max priority 10
+                    var arguments = new Dictionary<string, object>
+                                            {
+                                                { "x-max-priority", 10 }
+                                            };
+                    await _channel.QueueDeclareAsync(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: arguments);
 
                     var body = Encoding.UTF8.GetBytes(message);
                     var properties = new BasicProperties
                     {
-                        Persistent = true
+                        Persistent = true, // For durability in task queue
+                        //Chuyển đổi priority của Esign qua Priority của RabbitMQ. 2 cái đảo giá trị: 10->1, 1->10, 2->9, 3->8, 4->7, 5->6, 6->5, 7->4, 8->3, 9->2
+                        Priority = (byte)(10 - Priority + 1) // RabbitMQ priority => priority này trở thành ưu tiên get khi consumer lấy message
                     };
 
                     properties.Persistent = true; // Make messages durable
-                    await _channel.BasicPublishAsync(exchange: string.Empty, routingKey: queueName, mandatory: true, basicProperties: properties, body: body);
+                    await _channel.BasicPublishAsync(exchange: string.Empty
+                                                 , routingKey: queueName
+                                                 , mandatory: true
+                                                 , basicProperties: properties
+                                                 , body: body
+                                                 , cancellationToken: cancellation);
+
                 }
                 catch (Exception ex)
                 {
@@ -138,6 +164,8 @@ namespace ESignature.Api.Messages
                 _disposed = true;
             }
         }
+
+
     }
 
 }

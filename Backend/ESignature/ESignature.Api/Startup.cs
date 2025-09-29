@@ -1,4 +1,4 @@
-using ESignature.Api.BackgroundServices;
+
 using ESignature.Api.Messages;
 using ESignature.Core.BaseDtos;
 using ESignature.Core.Helpers;
@@ -6,12 +6,12 @@ using ESignature.Core.Infrastructure;
 using ESignature.Core.RestClient;
 using ESignature.DAL;
 using ESignature.DAL.Models;
+using ESignature.Hash.ServiceLayer;
 using ESignature.ServiceLayer.Authentications;
 using ESignature.ServiceLayer.ESignCloud;
 using ESignature.ServiceLayer.Services.Commands;
 using ESignature.ServiceLayer.Services.OnStartup;
 using ESignature.ServiceLayer.Settings;
-using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using SdkTester.dataModel;
 
 namespace ESignature.Api
 {
@@ -64,12 +65,12 @@ namespace ESignature.Api
                             res.Result = false;
                             return new BadRequestObjectResult(res);
                         };
-                    })
-                    .AddFluentValidation(s =>
-                    {
-                        s.RegisterValidatorsFromAssembly(AppDomain.CurrentDomain.Load("ESignature.ServiceLayer"));
-                        s.DisableDataAnnotationsValidation = true;
                     });
+            //.AddFluentValidation(s =>
+            //{
+            //    s.RegisterValidatorsFromAssembly(AppDomain.CurrentDomain.Load("ESignature.ServiceLayer"));
+            //    s.DisableDataAnnotationsValidation = true;
+            //});
 
             services.AddSwaggerGen(config =>
             {
@@ -201,8 +202,12 @@ namespace ESignature.Api
             services.Configure<ESignatureSetting>(Configuration.GetSection("ESignature"));
 
             var serviceAssembly = AppDomain.CurrentDomain.Load("ESignature.ServiceLayer");
-            services.AddMediatR(serviceAssembly);
-            services.AddAutoMapper(serviceAssembly);
+            //services.AddMediatR(serviceAssembly);
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(serviceAssembly);
+            });
+            services.AddAutoMapper(serviceAssembly); 
 
             services.AddDbContext<ESignatureContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Database"), opt =>
@@ -210,23 +215,25 @@ namespace ESignature.Api
                     opt.MigrationsAssembly("ESignature.DAL");
                 })
             );
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ApiSourceData>();
             services.AddSingleton<ServiceData>();
+            services.AddSingleton<Common>();
             services.AddSingleton<IMessagePublisher, MessagePublisher>();
-            
+
             services.AddUnitOfWork<ESignatureContext>();
             services.AddTransient<IRestClient, RestClient>();
             services.AddTransient<ESignCloudFunction>();
 
 
             // add background jobs
-            //services.AddHostedService<RabbitMQConsumerPendingService>();
+            services.AddHostedService<RabbitMQConsumerProgressService>();
 
-            services.AddHostedService<PendingJob>();
-            services.AddHostedService<InProgressJob>();
-            services.AddHostedService<CallBackJob>();
-            services.AddHostedService<HistoryJob>();
+            //services.AddHostedService<PendingJob>();
+            //services.AddHostedService<InProgressJob>();
+            //services.AddHostedService<CallBackJob>();
+            //services.AddHostedService<HistoryJob>();
         }
     }
 }
