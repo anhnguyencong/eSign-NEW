@@ -1,7 +1,4 @@
-﻿using ESignature.Hash.ServiceLayer.Settings;
-using ESignature.ServiceLayer.ESignCloud;
-using ESignature.ServiceLayer.Services.Commands;
-using ESignature.ServiceLayer.Settings;
+﻿using ESignature.HashServiceLayer.Settings;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

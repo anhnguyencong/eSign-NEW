@@ -1,7 +1,8 @@
-﻿using System.Net;
-using System.Text;
+﻿using ESignature.HashServiceLayer.Settings;
 using Newtonsoft.Json;
 using SdkTester.dataModel;
+using System.Net;
+using System.Text;
 
 namespace SdkTester.eSign
 {
@@ -27,15 +28,22 @@ namespace SdkTester.eSign
         public const string FUNCTION_PREPAREHASHSIGNINGFORSIGNCLOUD = "prepareHashSigningForSignCloud";
         public const string FUNCTION_GETSIGNATUREVALUEFORSIGNCLOUD = "getSignatureValueForSignCloud";
 
-        public void SetParams()
+        public void SetParams(HashRsspCloudSetting hashRsspCloudSetting)
         {
-            URL = "https://rssp.fptdev.site/eSignCloud/restapi/";
-            relyingParty = "GIC_DEMO";
-            relyingPartyUser = "GIC_DEMO";
-            relyingPartyPassword = "85pJrHNG";
-            relyingPartySignature = "OKHIvMrcwijaoejjAP0dRHE2N3O3qcOBhLqBJ694T/ZHoOV197t9vaVg736oUPz1lKGFLzDk2I2qDPQSFw1JewgRj0QtU9nqRLMVwwdB4Tr06hxYxKptQCGHkq4K7pezgj0qWLoNAdmekJSFYETR1hogUFPJRJM8YmDfj7baQ690+S2BYU5PZk+i6bU0tEGGB8W3Oph5vFmWBUlUC680ntVmeE4TxYI+kN3pONlkiMY0/gUoTWe9nCtTt/dGLg2zyzyg0MDXkb5eUzcHaDordKSVAxdIV+9rwHqpmtBvVGOT3EMR8VjX8RErfcLMRx2psZP+8b6mI8EJFpOjQF26tw==";
-            relyingPartyKeyStore = "files/GIC_DEMO.p12";
-            relyingPartyKeyStorePassword = "W8jKYuJ4";
+            URL = hashRsspCloudSetting.RestUrl;
+            relyingParty = hashRsspCloudSetting.SignerName;
+            relyingPartyUser = hashRsspCloudSetting.Username;
+            relyingPartyPassword = hashRsspCloudSetting.Password;
+            relyingPartySignature = hashRsspCloudSetting.Signature;
+            relyingPartyKeyStore = hashRsspCloudSetting.KeyStore;
+            relyingPartyKeyStorePassword = hashRsspCloudSetting.KeyStorePassword;
+            //URL = "https://rssp.fptdev.site/eSignCloud/restapi/";
+            //relyingParty = "GIC_DEMO";
+            //relyingPartyUser = "GIC_DEMO";
+            //relyingPartyPassword = "85pJrHNG";
+            //relyingPartySignature = "OKHIvMrcwijaoejjAP0dRHE2N3O3qcOBhLqBJ694T/ZHoOV197t9vaVg736oUPz1lKGFLzDk2I2qDPQSFw1JewgRj0QtU9nqRLMVwwdB4Tr06hxYxKptQCGHkq4K7pezgj0qWLoNAdmekJSFYETR1hogUFPJRJM8YmDfj7baQ690+S2BYU5PZk+i6bU0tEGGB8W3Oph5vFmWBUlUC680ntVmeE4TxYI+kN3pONlkiMY0/gUoTWe9nCtTt/dGLg2zyzyg0MDXkb5eUzcHaDordKSVAxdIV+9rwHqpmtBvVGOT3EMR8VjX8RErfcLMRx2psZP+8b6mI8EJFpOjQF26tw==";
+            //relyingPartyKeyStore = "files/GIC_DEMO.p12";
+            //relyingPartyKeyStorePassword = "W8jKYuJ4";
         }
       
         public SignCloudResp getCertificateDetailForSignCloud(string agreementUUID)

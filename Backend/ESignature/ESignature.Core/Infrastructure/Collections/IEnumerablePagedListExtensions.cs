@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using ESignature.Core.Infrastructure.Collections;
 
 namespace ESignature.Core.Infrastructure.Collections
 {

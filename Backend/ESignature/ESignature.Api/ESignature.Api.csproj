@@ -21,7 +21,7 @@
  
     <ItemGroup>
       <Compile Remove="BackgroundServices\CallBackJob.cs" />
-      <Compile Remove="BackgroundServices\HistoryJob.cs" />
+      <Compile Remove="BackgroundServices\InProgressJob.cs" />
       <Compile Remove="BackgroundServices\PendingJob.cs" />
     </ItemGroup>
  
@@ -46,8 +46,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ESignature.Hash.ServiceLayer\ESignature.Hash.ServiceLayer.csproj" />
-      <ProjectReference Include="..\ESignature.ServiceLayer\ESignature.ServiceLayer.csproj" />
+      <ProjectReference Include="..\ESignature.Hash.ServiceLayer\ESignature.HashServiceLayer.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -68,6 +67,12 @@
       </Content>
       <Content Update="wwwroot\esigncloud\Signature.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\image.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Update="wwwroot\imageCheck.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
 

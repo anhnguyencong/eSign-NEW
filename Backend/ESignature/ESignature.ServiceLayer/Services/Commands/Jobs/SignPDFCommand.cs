@@ -1,14 +1,9 @@
-﻿using ESignature.DAL;
-using ESignature.Hash.ServiceLayer.Settings;
+﻿using ESignature.HashServiceLayer.Settings;
 using ESignature.ServiceLayer.ESignCloud;
 using ESignature.ServiceLayer.Settings;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +11,7 @@ namespace ESignature.ServiceLayer.Services.Commands
 {
     public class SignPDFCommand : IRequest<bool>
     {
-        public HashRsspCloudSetting HashRsspCloudSetting { get; set; }
+        public RsspCloudSetting RsspCloudSetting { get; set; }
 
         // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
         public Branch BranchSetting { get; set; }
@@ -42,29 +37,29 @@ namespace ESignature.ServiceLayer.Services.Commands
 
         public async Task<bool> Handle(SignPDFCommand request, CancellationToken cancellationToken)
         {
-            var files = new List<FileDto>
-            {
-                new FileDto
-                {
-                    FilePendingPath = request.FilePath,
-                    Password = request.FilePassword
-                }
-            };
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            try
-            {
-                var list = await _esgnCloudFunction.SignPdf(request.RsspCloudSetting, files, request.Description, request.ApprovalDate, request.VisiblePosition, request.PageSign, request.BranchSetting);
-                if (list != null && list.Any())
-                {
-                    File.WriteAllBytes(request.CompletedFilePath, list.First());
-                }
-            }
-            catch (Exception ex)
-            {                
-            }
-            stopwatch.Stop();
-            _logger.LogWarning($"_esgnCloudFunction.SignPdf: {stopwatch.ElapsedMilliseconds} ms");
+            //var files = new List<FileDto>
+            //{
+            //    new FileDto
+            //    {
+            //        FilePendingPath = request.FilePath,
+            //        Password = request.FilePassword
+            //    }
+            //};
+            //Stopwatch stopwatch = new Stopwatch();
+            //stopwatch.Start();
+            //try
+            //{
+            //    var list = await _esgnCloudFunction.SignPdf(request.RsspCloudSetting, files, request.Description, request.ApprovalDate, request.VisiblePosition, request.PageSign, request.BranchSetting);
+            //    if (list != null && list.Any())
+            //    {
+            //        File.WriteAllBytes(request.CompletedFilePath, list.First());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{                
+            //}
+            //stopwatch.Stop();
+            //_logger.LogWarning($"_esgnCloudFunction.SignPdf: {stopwatch.ElapsedMilliseconds} ms");
 
             return true;
         }

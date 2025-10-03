@@ -29,6 +29,10 @@ namespace ESignature.DAL.Models
         public string PageSign { get; set; }
         public string VisiblePosition { get; set; }
 
+        //bit 1: đã gửi lên message broker (vào inprogress queue)
+        //bit 2: đã callback
+        public int? SentToMessageBroker { get; set; }
+
         [InverseProperty("Job")]
         public ICollection<Media> Files { get; set; } = new List<Media>();
     }

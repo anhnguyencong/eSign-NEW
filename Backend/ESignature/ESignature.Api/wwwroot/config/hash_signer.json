@@ -2,15 +2,17 @@
   "Signers": [
     {
       "SignerId": "SIGNER1",
+      "SignerName": "GIC_DEMO",
       "AgreementUUID": "55ACEDBF-2AF9-4917-805E-87359394F763",
-      "CredentialID": "",
+      "CredentialID": "be0e2261-71bc-4705-8804-d18bc28657fd",
       "PassCode": "12345678",
       "Signature": "OKHIvMrcwijaoejjAP0dRHE2N3O3qcOBhLqBJ694T/ZHoOV197t9vaVg736oUPz1lKGFLzDk2I2qDPQSFw1JewgRj0QtU9nqRLMVwwdB4Tr06hxYxKptQCGHkq4K7pezgj0qWLoNAdmekJSFYETR1hogUFPJRJM8YmDfj7baQ690+S2BYU5PZk+i6bU0tEGGB8W3Oph5vFmWBUlUC680ntVmeE4TxYI+kN3pONlkiMY0/gUoTWe9nCtTt/dGLg2zyzyg0MDXkb5eUzcHaDordKSVAxdIV+9rwHqpmtBvVGOT3EMR8VjX8RErfcLMRx2psZP+8b6mI8EJFpOjQF26tw==",
-      "RestUrl": "9090",
+      "RestUrl": "https://rssp.fptdev.site/eSignCloud/restapi/",
       "Username": "GIC_DEMO",
       "Password": "85pJrHNG",
       "KeyStore": "files/GIC_DEMO.p12",
-      "KeyStorePassword": "W8jKYuJ4"
+      "KeyStorePassword": "W8jKYuJ4",
+      "ESignCloudClientPort": "9090"
     }
   ]
 }

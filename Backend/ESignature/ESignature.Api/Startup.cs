@@ -1,17 +1,17 @@
 
-using ESignature.Api.Messages;
+using ESignature.Api.BackgroundServices;
 using ESignature.Core.BaseDtos;
 using ESignature.Core.Helpers;
 using ESignature.Core.Infrastructure;
 using ESignature.Core.RestClient;
 using ESignature.DAL;
 using ESignature.DAL.Models;
-using ESignature.Hash.ServiceLayer;
-using ESignature.ServiceLayer.Authentications;
-using ESignature.ServiceLayer.ESignCloud;
-using ESignature.ServiceLayer.Services.Commands;
-using ESignature.ServiceLayer.Services.OnStartup;
-using ESignature.ServiceLayer.Settings;
+using ESignature.HashServiceLayer.Authentications;
+using ESignature.HashServiceLayer.Messages;
+using ESignature.HashServiceLayer.Services;
+using ESignature.HashServiceLayer.Services.Commands;
+using ESignature.HashServiceLayer.Services.OnStartup;
+using ESignature.HashServiceLayer.Settings;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,7 +31,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using SdkTester.dataModel;
 
 namespace ESignature.Api
 {
@@ -68,7 +67,7 @@ namespace ESignature.Api
                     });
             //.AddFluentValidation(s =>
             //{
-            //    s.RegisterValidatorsFromAssembly(AppDomain.CurrentDomain.Load("ESignature.ServiceLayer"));
+            //    s.RegisterValidatorsFromAssembly(AppDomain.CurrentDomain.Load("ESignature.HashServiceLayer"));
             //    s.DisableDataAnnotationsValidation = true;
             //});
 
@@ -198,10 +197,10 @@ namespace ESignature.Api
 
         private void ConfigureApplicationServices(IServiceCollection services)
         {
-            services.Configure<RsspCloudSetting>(Configuration.GetSection("RsspCloud"));
+            //services.Configure<HashRsspCloudSetting>(Configuration.GetSection("RsspCloud"));
             services.Configure<ESignatureSetting>(Configuration.GetSection("ESignature"));
 
-            var serviceAssembly = AppDomain.CurrentDomain.Load("ESignature.ServiceLayer");
+            var serviceAssembly = AppDomain.CurrentDomain.Load("ESignature.HashServiceLayer");
             //services.AddMediatR(serviceAssembly);
             services.AddMediatR(cfg =>
             {
@@ -215,16 +214,18 @@ namespace ESignature.Api
                     opt.MigrationsAssembly("ESignature.DAL");
                 })
             );
-
+            services.AddUnitOfWork<ESignatureContext>();
+             
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ApiSourceData>();
             services.AddSingleton<ServiceData>();
             services.AddSingleton<Common>();
             services.AddSingleton<IMessagePublisher, MessagePublisher>();
+            
+            services.AddSingleton<IHashInProgressSignService, HashInProgressSignService>();
 
-            services.AddUnitOfWork<ESignatureContext>();
             services.AddTransient<IRestClient, RestClient>();
-            services.AddTransient<ESignCloudFunction>();
+            //services.AddTransient<ESignCloudFunction>();
 
 
             // add background jobs
@@ -233,7 +234,7 @@ namespace ESignature.Api
             //services.AddHostedService<PendingJob>();
             //services.AddHostedService<InProgressJob>();
             //services.AddHostedService<CallBackJob>();
-            //services.AddHostedService<HistoryJob>();
+            services.AddHostedService<HistoryJob>();
         }
     }
 }

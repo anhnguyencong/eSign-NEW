@@ -1,8 +1,8 @@
 ﻿using ESignature.Core.BaseDtos;
 using ESignature.DAL;
-using ESignature.ServiceLayer.Authentications;
-using ESignature.ServiceLayer.Services.Commands.Services;
-using ESignature.ServiceLayer.Services.OnStartup;
+using ESignature.HashServiceLayer.Authentications;
+using ESignature.HashServiceLayer.Services.Commands.Services;
+using ESignature.HashServiceLayer.Services.OnStartup;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

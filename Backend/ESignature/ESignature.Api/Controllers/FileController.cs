@@ -1,10 +1,9 @@
-﻿using ESignature.Api.Messages;
-using ESignature.Core.BaseDtos;
-using ESignature.DAL;
+﻿using ESignature.Core.BaseDtos;
 using ESignature.DAL.Models;
-using ESignature.ServiceLayer.Authentications;
-using ESignature.ServiceLayer.Services.Commands;
-using ESignature.ServiceLayer.Services.Queries.Users;
+using ESignature.HashServiceLayer.Authentications;
+using ESignature.HashServiceLayer.Messages;
+using ESignature.HashServiceLayer.Services.Commands;
+using ESignature.HashServiceLayer.Services.Queries.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

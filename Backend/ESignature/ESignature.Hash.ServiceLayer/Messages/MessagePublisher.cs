@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using RabbitMQ.Client;
-using System.Text;
-using Microsoft.Extensions.Logging;
-using ESignature.Core.Helpers;
+﻿using ESignature.Core.Helpers;
 using ESignature.Core.Settings;
 using Microsoft.Extensions.Configuration;
-using System.Threading;
+using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
+using System.Text;
 
-namespace ESignature.Api.Messages
+namespace ESignature.HashServiceLayer.Messages
 {
     public interface IMessagePublisher
     {
@@ -131,6 +126,11 @@ namespace ESignature.Api.Messages
                     _logger.LogError(ex, $"Failed to publish log RabbitMQ: {ex.Message}", message);
                     return false;
                 }
+            }
+            else
+            {
+                _logger.LogError($"RabbitMQ connection is not available.");
+                return false;
             }
             return true;
         }

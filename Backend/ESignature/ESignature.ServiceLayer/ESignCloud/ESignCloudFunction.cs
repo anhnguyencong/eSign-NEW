@@ -1,4 +1,5 @@
-﻿using ESignature.ServiceLayer.Settings;
+﻿using ESignature.HashServiceLayer.Settings;
+using ESignature.ServiceLayer.Settings;
 using lib.rssp.exsig;
 using lib.rssp.exsig.pdf;
 using lib.rssp.sign;

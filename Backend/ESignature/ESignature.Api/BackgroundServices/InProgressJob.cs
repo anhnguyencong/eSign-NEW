@@ -116,13 +116,13 @@ namespace ESignature.Api.BackgroundServices
                                 Stopwatch stopwatch2 = new Stopwatch();
                                 stopwatch2.Start();
 
-                                var command = new SignPDFCommand
+                                var command = new HashSignPDFCommand
                                 {
                                     FilePath = Path.Combine(s.Folder, pendingFile.Path),
                                     FilePassword = item.FilePassword,
                                     CompletedFileName = completedFileName,
                                     CompletedFilePath = completedFilePath,
-                                    RsspCloudSetting = rsspCloudSetting,
+                                    HashRsspCloudSetting = rsspCloudSetting,
                                     // danh sách fullname branch kí để kiểm soát việc xuống dòng của tên khi kí
                                     BranchSetting = branchSetting,
                                     Description = item.Description,

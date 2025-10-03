@@ -1,5 +1,5 @@
 ﻿using ESignature.Core.Helpers;
-using ESignature.Hash.ServiceLayer.Settings;
+using ESignature.HashServiceLayer.Settings;
 using ESignature.ServiceLayer.Services.Dtos;
 using ESignature.ServiceLayer.Settings;
 using System.Collections.Generic;

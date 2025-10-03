@@ -1,6 +1,6 @@
 ﻿using ESignature.DAL;
 using ESignature.DAL.Models;
-using ESignature.Hash.ServiceLayer.Settings;
+using ESignature.HashServiceLayer.Settings;
 using ESignature.ServiceLayer.Services.Dtos;
 using ESignature.ServiceLayer.Services.OnStartup;
 using ESignature.ServiceLayer.Settings;

@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ESignature.Core\ESignature.Core.csproj" />
+		<ProjectReference Include="..\ESignature.DAL\ESignature.DAL.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Aspose.Cells" Version="21.4.0" />
+		<PackageReference Include="Aspose.Slides.NET" Version="21.4.0" />
+		<PackageReference Include="Aspose.Words" Version="21.4.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="ESignCloud\ESignCloudFunction.cs" />
+		<Compile Remove="Services\Commands\Jobs\SignPDFCommand.cs" />
+		<Compile Remove="Services\ProcessEsignHash.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="files\certs\cert_ca.pem" />
+		<None Remove="files\certs\cert_root.pem" />
+		<None Remove="files\certs\temp_cert_from_api.pem" />
+		<None Remove="files\finalTest\test_1.signed.pdf" />
+		<None Remove="files\GIC_DEMO.p12" />
+		<None Remove="files\image.png" />
+		<None Remove="files\imageCheck.png" />
+		<None Remove="files\test.pdf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="files\certs\cert_ca.pem">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\certs\cert_root.pem">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\certs\temp_cert_from_api.pem">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\finalTest\test_1.signed.pdf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\GIC_DEMO.p12">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\image.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\imageCheck.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="files\test.pdf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="RSSP.AgentSdk.CSharp">
+			<HintPath>libs\netstandard2.0\RSSP.AgentSdk.CSharp.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="12.5.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
+	</ItemGroup>
+</Project>

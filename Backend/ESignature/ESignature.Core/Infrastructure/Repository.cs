@@ -155,7 +155,7 @@ namespace ESignature.Core.Infrastructure
         {
             _dbSet.Update(entity);
         }
-
+       
         public async Task<int> UpdateBatchAsync(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, TEntity>> updateFactory)
         {
             return await _dbSet.AsNoTracking().Where(where).UpdateAsync(updateFactory);

@@ -1,5 +1,5 @@
 ﻿using ESignature.Core.BaseDtos;
-using ESignature.ServiceLayer.Services.Queries.Users;
+using ESignature.HashServiceLayer.Services.Queries.Users;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

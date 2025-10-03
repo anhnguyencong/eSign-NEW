@@ -5,14 +5,18 @@ using SdkTester.eSign;
 using System.Diagnostics;
 using System.Text;
 
-namespace ESignature.Hash.ServiceLayer
+namespace ESignature.HashServiceLayer.Services
 {
-    public class ESignHash
+    
+    public class ProcessEsignHash
     {
-        public static String agreementUUID = "55ACEDBF-2AF9-4917-805E-87359394F763";
-        public static String passCode = "12345678";
-        public static String? cert = "";
+        public static string agreementUUID = "55ACEDBF-2AF9-4917-805E-87359394F763";
+        public static string passCode = "12345678";
+        public static string cert = "";
+        public ProcessEsignHash()
+        {
 
+        }
         public void ProcessPdf()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -20,7 +24,7 @@ namespace ESignature.Hash.ServiceLayer
             ESignCloudClient eSignCloudClient = new ESignCloudClient("9090");
             service.SetParams();
 
-            SignCloudResp? signCloudResp = null;
+            SignCloudResp signCloudResp = null;
             List<byte[]> hashes = new List<byte[]>();
             List<byte[]> signatures = new List<byte[]>();
             List<byte[]> certFiles = new List<byte[]>();

@@ -5,13 +5,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Settings\Branches.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Remove="ESignCloud\ESignCloud.zip" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\ESignature.Core\ESignature.Core.csproj" />
         <ProjectReference Include="..\ESignature.DAL\ESignature.DAL.csproj" />
-        <ProjectReference Include="..\ESignature.Hash.ServiceLayer\ESignature.Hash.ServiceLayer.csproj" />
+        <ProjectReference Include="..\ESignature.Hash.ServiceLayer\ESignature.HashServiceLayer.csproj" />
     </ItemGroup>
 
     <ItemGroup>

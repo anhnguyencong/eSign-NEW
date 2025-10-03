@@ -4,6 +4,7 @@ using ESignature.Core.Helpers;
 using ESignature.Core.Infrastructure;
 using ESignature.DAL;
 using ESignature.DAL.Models;
+using ESignature.HashServiceLayer.Messages;
 using ESignature.ServiceLayer.Services.OnStartup;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ namespace ESignature.ServiceLayer.Services.Commands
         private readonly IRepository<Job> _jobRepo;
         private readonly ApiSourceData _apiSourceData;
         private readonly ILogger<UploadFileCommandHandler> _logger;
-
+        private readonly IMessagePublisher _publisher;
         public UploadFileCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, ApiSourceData apiSourceData, ILogger<UploadFileCommandHandler> logger)
         {
             _mapper = mapper;
@@ -108,6 +109,7 @@ namespace ESignature.ServiceLayer.Services.Commands
             newJob.AppName = apiSource.Name;
             newJob.AppTokenKey = apiSource.Key;
             newJob.Status = JobStatus.Pending;
+            newJob.SentToMessageBroker = false;
 
             var filePendingId = Guid.NewGuid();
             var filePendingName = filePendingId + Path.GetExtension(request.File.FileName);
@@ -136,6 +138,8 @@ namespace ESignature.ServiceLayer.Services.Commands
 
             await _unitOfWork.SaveChangesAsync();
             response.Result = true;
+
+
 
             stopwatch.Stop();
             _logger.LogWarning($"UploadFileCommand: {stopwatch.ElapsedMilliseconds} ms");
