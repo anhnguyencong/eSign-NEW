@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Aspose.Words.Shaping;
+using AutoMapper;
 using ESignature.HashServiceLayer.Settings;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using RSSP.AgentSdk.CSharp.Data;
 using RSSP.AgentSdk.CSharp.eSign;
 using SdkTester.dataModel;
 using SdkTester.eSign;
+using System.Reflection.PortableExecutable;
 using System.Text;
 
 
@@ -69,8 +71,27 @@ namespace ESignature.HashServiceLayer.Services.Commands
 
                 _logger.LogDebug($"Certificate of {request.SignerId}:{signCloudResp.Certificate}");
 
-                signer1.PageNo = "1";
-                signer1.Rectangle = "400, 80, 550, 140";
+                //*********Begin Page Number**************************************************//
+                var pPage = 1;
+                //signer1.PageNo = "1";
+                if (request.PageSign.ToUpper() == "LAST")
+                {
+                    var pdfReader = new iTextSharp.text.pdf.PdfReader(request.FilePath);
+                    pPage = pdfReader.NumberOfPages;
+                }
+                else
+                {
+                    if (!int.TryParse(request.PageSign, out pPage))
+                    {
+                        pPage = 1;
+                    }
+                }
+                //*********End Page Number**************************************************//
+
+                //*********Begin Signed Rectangle**************************************************//
+                //signer1.Rectangle = "400, 80, 550, 140";
+                signer1.Rectangle = request.VisiblePosition;
+                //*********End Signed Rectangle**************************************************//
                 signer1.IsOffset = false;
                 signer1.FontSize = 8.0f;
                 signer1.Reason = "";
@@ -78,7 +99,7 @@ namespace ESignature.HashServiceLayer.Services.Commands
                 signer1.VisibleValidationSymbol = false;
                 signer1.DateFormat = "dd/MM/yyyy";
 
-                //*********Begin Tên chữ kí**************************************************//                
+                //*********Begin Tên chữ kí**************************************************//
                 //signer1.SignerInformation = "Đã ký điện tử bởi:\n {signby}\nKý ngày: {date}";
                 var sb = new StringBuilder();
 

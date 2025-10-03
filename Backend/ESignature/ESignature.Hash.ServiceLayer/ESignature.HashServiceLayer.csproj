@@ -60,6 +60,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Reference Include="itextsharp">
+		  <HintPath>..\lib\itextsharp.dll</HintPath>
+		</Reference>
+		<Reference Include="lib.rssp.exsig">
+		  <HintPath>..\lib\lib.rssp.exsig.dll</HintPath>
+		</Reference>
+		<Reference Include="lib.rssp.office">
+		  <HintPath>..\lib\lib.rssp.office.dll</HintPath>
+		</Reference>
+		<Reference Include="lib.rssp.pdf">
+		  <HintPath>..\lib\lib.rssp.pdf.dll</HintPath>
+		</Reference>
+		<Reference Include="lib.rssp.xml">
+		  <HintPath>..\lib\lib.rssp.xml.dll</HintPath>
+		</Reference>
 		<Reference Include="RSSP.AgentSdk.CSharp">
 			<HintPath>libs\netstandard2.0\RSSP.AgentSdk.CSharp.dll</HintPath>
 		</Reference>
