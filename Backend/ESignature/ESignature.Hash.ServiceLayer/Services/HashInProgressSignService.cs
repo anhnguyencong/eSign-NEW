@@ -1,11 +1,14 @@
 ﻿//using ESignature.Api.BackgroundServices;
 using ESignature.Core.Infrastructure;
+using ESignature.Core.Settings;
 using ESignature.DAL;
 using ESignature.DAL.Models;
+using ESignature.HashServiceLayer.Messages;
 using ESignature.HashServiceLayer.Services.Commands;
 using ESignature.HashServiceLayer.Services.OnStartup;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -25,16 +28,24 @@ namespace ESignature.HashServiceLayer.Services
         private IRepository<Media> _mediaRepo;
         private readonly IMediator _mediator;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IMessagePublisher _publisher;
+        private RabbitMQSettings _rabbitMQSettings;
+        private readonly IConfiguration _config;
+
         public HashInProgressSignService(ILogger<HashInProgressSignService> logger
+            , IConfiguration config
             , ApiSourceData apiSource
             , IServiceScopeFactory serviceScopeFactory
-            , IMediator mediator)
+            , IMediator mediator
+            , IMessagePublisher publisher)
         {
             _logger = logger;
             _apiSource = apiSource;
+            _config = config;
+            _rabbitMQSettings = _config.GetSection("LogRabbitMQSettings").Get<RabbitMQSettings>() ?? new RabbitMQSettings();
             _serviceScopeFactory = serviceScopeFactory;
-
             _mediator = mediator;
+            _publisher = publisher;
         }
 
         public async Task<bool> CallHashInProgress(Guid id)
@@ -88,7 +99,7 @@ namespace ESignature.HashServiceLayer.Services
                                 string thirdParent = directoryInfo.Parent.Parent.Name; // "2025"
                                 //var dateFolder = Path.GetFileName(Path.GetDirectoryName(pendingFile.Path));
                                 var completedFilePath = Path.Combine(s.Folder, s.CompletedPath, thirdParent, secondParent, completedFileName);
-
+                                var saveCompletedFilePath = Path.Combine(s.CompletedPath, thirdParent, secondParent, completedFileName);
                                 Stopwatch stopwatch2 = new Stopwatch();
                                 stopwatch2.Start();
 
@@ -115,7 +126,7 @@ namespace ESignature.HashServiceLayer.Services
                                 {
                                     Name = completedFileName,
                                     JobFileType = JobFileType.Completed,
-                                    Path = completedFilePath,
+                                    Path = saveCompletedFilePath,
                                     ContentType = "application/pdf",
                                     ContentLength = new FileInfo(completedFilePath).Length
                                 };
@@ -144,8 +155,15 @@ namespace ESignature.HashServiceLayer.Services
                         {
                             item.CallBackStatus = CallBackStatus.Pending;
                         }
+                        bool isPub = await _publisher.PublishMessage(item.Id.ToString(), _rabbitMQSettings.CallBackJobQueueName, (int)item.Priority);
+                        if (isPub)
+                        {
+                            item.SentToMessageBroker |= 2; // bit 2 set to 1: đã callback
+                        }
+
                         _jobRepo.ChangeEntityState(item, EntityState.Modified);
                         await _uow.SaveChangesAsync();
+                        
                         _logger.LogWarning($"CallHashInProgress Job is completed: {item.Id}");
                     }
                 }

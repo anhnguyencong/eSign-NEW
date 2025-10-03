@@ -20,11 +20,9 @@ namespace ESignature.Api.Controllers
     public class FileController : BaseController
     {
         private readonly IMediator _mediator;
-        private readonly IMessagePublisher _publisher;
-        public FileController(IMediator mediator, IMessagePublisher publisher)
+        public FileController(IMediator mediator)
         {
             _mediator = mediator;
-            _publisher = publisher;
         }
 
         [HttpPost]

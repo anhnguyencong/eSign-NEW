@@ -1,6 +1,10 @@
-﻿using ESignature.Core.Settings;
+﻿using ESignature.Core.Infrastructure;
+using ESignature.Core.Settings;
 using ESignature.HashServiceLayer.Services;
+using ESignature.HashServiceLayer.Services.Commands;
+using MediatR;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -21,9 +25,13 @@ namespace ESignature.HashServiceLayer.Messages
         private readonly IConfiguration _config;
         private RabbitMQSettings _rabbitMQSettings;
         private readonly IHashInProgressSignService _inprogressSignService;
+        private IMediator _mediator;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+
         public RabbitMQConsumerProgressService(ILogger<RabbitMQConsumerProgressService> logger
             , IConfiguration config
-            , IHashInProgressSignService inprogressSignService)
+            , IHashInProgressSignService inprogressSignService
+            , IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
             _config = config;
@@ -36,6 +44,7 @@ namespace ESignature.HashServiceLayer.Messages
                 ConsumerDispatchConcurrency = (ushort)_rabbitMQSettings.ConsumerDispatchConcurrency
             };
             _inprogressSignService = inprogressSignService;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         private async Task WorkingForQueueInProgress(CancellationToken cancellationToken)
@@ -149,7 +158,11 @@ namespace ESignature.HashServiceLayer.Messages
                         var message = Encoding.UTF8.GetString(body);
                         _logger.LogInformation($" [x] Received {message}");
 
-                        await _inprogressSignService.CallHashInProgress(Guid.Parse(message));
+                        using (var scope = _serviceScopeFactory.CreateScope())
+                        {
+                            _mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                            await _mediator.Send(new DoCallBackCommand { JobId = Guid.Parse(message) });
+                        }
 
                         _logger.LogInformation(" [x] Done");
 

@@ -43,7 +43,7 @@ namespace ESignature.HashServiceLayer.Services.Commands
             _restClient = restClient;
             _serviceScopeFactory = serviceScopeFactory;
             _uow = uow;
-            
+
             _jobRepo = _uow.GetRepository<Job>();
 
         }
@@ -52,21 +52,23 @@ namespace ESignature.HashServiceLayer.Services.Commands
         {
             bool res = false;
             var item = await _jobRepo.FirstOrDefaultAsync(q => q.Id == request.JobId && q.CallBackStatus == CallBackStatus.Pending,
-                                                 q => q.Include(t => t.Files));
-
-
+                                                q => q.Include(t => t.Files));
             try
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
+                if (item != null)
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
 
-                await CallBackClient(item);
-                item.CallBackStatus = CallBackStatus.Completed;
-                item.SentToMessageBroker |= 2; // bit 2 set to 1: đã callback
-                stopwatch.Stop();
-                _logger.LogWarning($"CallBackJob_ProcessData_CallBackClient: {stopwatch.ElapsedMilliseconds} ms");
-                _logger.LogWarning($"Callback Job is completed.");
-                res = true;
+                    await CallBackClient(item);
+                    item.CallBackStatus = CallBackStatus.Completed;
+                    item.ResponseSignatureApiDate = DateTime.Now;
+                    item.SentToMessageBroker |= 2; // bit 2 set to 1: đã callback
+                    stopwatch.Stop();
+                    _logger.LogWarning($"CallBackJob_ProcessData_CallBackClient: {stopwatch.ElapsedMilliseconds} ms");
+                    _logger.LogWarning($"Callback Job is completed.");
+                    res = true;
+                }
             }
             catch (Exception ex)
             {
@@ -102,7 +104,7 @@ namespace ESignature.HashServiceLayer.Services.Commands
                     ErrorMessage = item.Note
                 };
                 await _restClient.PostAsync(item.CallBackUrl, data);
-                _logger.LogWarning($"Called back client:id={item.Id}.url={item.CallBackUrl} ");                
+                _logger.LogWarning($"Called back client:id={item.Id}.url={item.CallBackUrl} ");
             }
             else
             {

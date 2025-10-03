@@ -1,10 +1,12 @@
-﻿using ESignature.HashServiceLayer.Settings;
+﻿using AutoMapper;
+using ESignature.HashServiceLayer.Settings;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using RSSP.AgentSdk.CSharp.Data;
 using RSSP.AgentSdk.CSharp.eSign;
 using SdkTester.dataModel;
 using SdkTester.eSign;
+using System.Text;
 
 
 namespace ESignature.HashServiceLayer.Services.Commands
@@ -75,7 +77,37 @@ namespace ESignature.HashServiceLayer.Services.Commands
                 signer1.Location = "";
                 signer1.VisibleValidationSymbol = false;
                 signer1.DateFormat = "dd/MM/yyyy";
-                signer1.SignerInformation = "Đã ký điện tử bởi:\n {signby}\nKý ngày: {date}";
+
+                //*********Begin Tên chữ kí**************************************************//                
+                //signer1.SignerInformation = "Đã ký điện tử bởi:\n {signby}\nKý ngày: {date}";
+                var sb = new StringBuilder();
+
+
+                sb.Append("Đã ký điện tử bởi:\n");
+                if (!string.IsNullOrEmpty(request.BranchSetting.FullName))
+                {
+                    //branchSetting SignerId + FullName được update và lưu trữ trong file: wwwroot/config/listbranch.json
+                    sb.Append(request.BranchSetting.FullName).Append("\n");
+                }
+                else sb.Append("{signby}\n");
+
+                if (!string.IsNullOrWhiteSpace(request.Description))
+                {
+                    sb.Append(request.Description).Append("\n");
+                }
+                if (request.ApprovalDate.HasValue)
+                {
+                    sb.Append("Ký ngày: ").Append(request.ApprovalDate.Value.ToString("dd/MM/yyyy"));
+                }
+                else
+                {
+                    sb.Append("Ký ngày: {date}");
+                }
+                signer1.SignerInformation = sb.ToString();
+
+                //*********End Tên chữ kí**************************************************//
+
+
                 signer1.TextAligment = TextAlignment.CENTER_TOP;
                 signer1.TextPaddingLeft = 0;
                 signer1.TextPaddingRight = 0;
